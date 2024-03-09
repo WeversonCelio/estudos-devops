@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+    mongo:
+        image: mongo
+        restart: always
+        environment:
+          MONGO_INITDB_ROOT_USERNAME: usuario
+          MONGO_INITDB_ROOT_PASSWORD: senha
+        ports:
+          - "27017:27017"
+
+    mongoexpress:
+        image: mongo-express
+        restart: always
+        ports:
+            - "8081:8081"
+        links:
+            - mongo
+        environment:
+            ME_CONFIG_BASICAUTH_USERNAME: admin
+            ME_CONFIG_BASICAUTH_PASSWORD: abc123 
+            ME_CONFIG_MONGODB_URL: mongodb://usuario:senha@mongo:27017
+        volumes:
+          - ./volumes:/data/db
+           
